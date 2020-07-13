@@ -60,7 +60,6 @@ function showPanel(book){
 
         let updatedUsers = {}
         if (book.users.find(user => user.username == "pouros" && user.id == 1)){
-            console.log("FIRST USER WAS FOUND")
             book.users.pop()
             updatedUsers = book.users
             btn.innerText = "Like Book"
