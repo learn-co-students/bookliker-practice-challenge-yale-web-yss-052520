@@ -11,6 +11,10 @@ document.addEventListener("DOMContentLoaded", function() {
         })
     }
 
+    function alreadyLiked(users) {
+        return users.map(user => user.username).includes("pouros")
+    }
+
     function addBook(book) {
         const li = document.createElement("li")
         const ul = div.children[0]
@@ -30,28 +34,52 @@ document.addEventListener("DOMContentLoaded", function() {
             description.innerText = book.description
 
             const btn = document.createElement("button")
-            btn.innerText = "Like Book"
+
+            if (alreadyLiked(book.users)) {
+                btn.innerText = "Unlike"
+            }
+            else {
+                btn.innerText = "Like Book"
+            }
             
             btn.addEventListener("click", () => {
-                book.users.push({"id":1, "username":"pouros"})
-                // debugger
-                fetch("http://localhost:3000/books/"+ book.id, {
-                    method: "PATCH",
-                    headers: {
-                        "Content-Type": "application/json", 
-                        "Accept": "application/json"
-                    },
-                    body: JSON.stringify({
-                        users: book.users 
+                if (event.target.innerText === "Like Book") {
+                    book.users.push({"id":1, "username":"pouros"})
+                    fetch("http://localhost:3000/books/"+ book.id, {
+                        method: "PATCH",
+                        headers: {
+                            "Content-Type": "application/json", 
+                            "Accept": "application/json"
+                        },
+                        body: JSON.stringify({
+                            users: book.users 
+                        })
                     })
-                })
-                .then(response => response.json())
-                .then(updatedBook => {
-                    debugger 
-                    const h4 = document.createElement("h4")
-                    h4.innerHTML = updatedBook.users[updatedBook.users.length - 1].username 
-                    panel.append(h4)
-                })
+                    .then(response => response.json())
+                    .then(updatedBook => {
+                        const h4 = document.createElement("h4")
+                        h4.innerHTML = updatedBook.users[updatedBook.users.length - 1].username 
+                        panel.append(h4)
+                    })
+                    event.target.innerText = "Unlike"
+                } else {
+                    book.users.pop() 
+                    fetch("http://localhost:3000/books/"+ book.id, {
+                        method: "PATCH",
+                        headers: {
+                            "Content-Type": "application/json", 
+                            "Accept": "application/json"
+                        },
+                        body: JSON.stringify({
+                            users: book.users 
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(updatedBook => {
+                        panel.children[panel.children.length - 1].remove()
+                    })
+                    event.target.innerText = "Like Book"
+                }
             })
             
             panel.append(title, image, description, btn)    
