@@ -45,5 +45,28 @@ function showPanel(book){
     let p = ce("p")
     p.innerText = book.description
 
-    panel.append(h2, img, p)
+    let btn = ce("button")
+    btn.innerText = "Like"
+    btn.addEventListener("click", async () => {
+    	book = await addLike(book)
+    })
+
+    panel.append(h2, img, p, btn)
+}
+
+async function addLike(book) {
+	let currentUser = await fetch('http://localhost:3000/users/1')
+		.then(res => res.json())
+
+	const response = await fetch('http://localhost:3000/books/' + book.id, {
+		method: 'patch',
+		headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({
+                  users: book.users.push(currentUser) 
+                })
+	})
+
+	const updatedBook = await response.json()
+
+	return updatedBook
 }
