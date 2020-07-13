@@ -46,17 +46,18 @@ function showPanel(book){
     p.innerText = book.description
 
     let btn = ce("button")
-    if (book.user.includes(currentUser)){
-        btn.innerText = "Remove Book"
+
+    let currentUser = {"id": 1, "username": "pouros"}
+    if (book.users.includes(currentUser)){
+        btn.innerText = "Unlike Book"
     }else{
-        btn.innerText = "Read Book"
+        btn.innerText = "Like Book"
     }
     
     btn.addEventListener("click",  () => {
 
-        let currentUser = {"id": 1, "username": "pouros"}
         
-         book.user.includes(currentUser)? book.users.filter(usr => usr == currentUser) : book.users.push(currentUser)
+        let updatedUsers = book.users.includes(currentUser)? book.users.filter(usr => usr == currentUser) : book.users.push(currentUser)
             
         // let updatedUsers = book.users
         // if (updatedUsers.lengthincludes(currentUser)){
