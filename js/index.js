@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
     const div = document.getElementById("list-panel")
-    
+    const panel = document.getElementById("show-panel")
+
 
     function listBooks() {
         fetch("http://localhost:3000/books")
@@ -16,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function() {
         li.innerText = book.title
 
         li.addEventListener("click", () => {
-            const panel = document.getElementById("show-panel")
+            
             panel.innerHTML = ""
             
             const title = document.createElement("h3")
@@ -31,28 +32,33 @@ document.addEventListener("DOMContentLoaded", function() {
             const btn = document.createElement("button")
             btn.innerText = "Like Book"
             
-            btn.addEventListener("click", function() {console.log("hello")})
-            // console.log(btn)
-            // btn.addEventListener("click", () => {
-                // debugger 
-                // fetch("http://localhost:3000/books/"+ book.id, {
-                //     method: "PATCH",
-                //     headers: {
-                //         "Content-Type": "application/json", 
-                //         "Accept": "application/json"
-                //     },
-                //     body: JSON.stringify({
-                //         users: book.users.push(
-                //             {"id":1, "username":"pouros"}
-                //         ) 
-                //     })
-                // })
-            // })
+            btn.addEventListener("click", () => {
+                book.users.push({"id":1, "username":"pouros"})
+                // debugger
+                fetch("http://localhost:3000/books/"+ book.id, {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json", 
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify({
+                        users: book.users 
+                    })
+                })
+                .then(response => response.json())
+                .then(updatedBook => {
+                    debugger 
+                    const h4 = document.createElement("h4")
+                    h4.innerHTML = updatedBook.users[updatedBook.users.length - 1].username 
+                    panel.append(h4)
+                })
+            })
             
             panel.append(title, image, description, btn)    
             book.users.forEach(user => {
-                const html = `<h4>${user.username}</h4>`
-                panel.innerHTML += html 
+                const h4 = document.createElement("h4")
+                h4.innerText = user.username
+                panel.append(h4)
             })
         })
 
