@@ -48,6 +48,8 @@ function showPanel(book){
     let btn = ce("button")
 
     let currentUser = {"id": 1, "username": "pouros"}
+
+    // debugger;
     if (book.users.includes(currentUser)){
         btn.innerText = "Unlike Book"
     }else{
@@ -57,8 +59,17 @@ function showPanel(book){
     btn.addEventListener("click",  () => {
 
         
-        let updatedUsers = book.users.includes(currentUser)? book.users.filter(usr => usr == currentUser) : book.users.push(currentUser)
-            
+        let updatedUsers = {}
+        if (book.users.includes(currentUser)){
+            updatedUsers = book.users.filter(usr => usr.id != currentUser.id)
+            btn.innerText = "Unlike Book"
+          }else{
+            book.users.push(currentUser)
+            updatedUsers = book.users
+            btn.innerText = "Like Book"
+          }  
+        
+        debugger;
         // let updatedUsers = book.users
         // if (updatedUsers.lengthincludes(currentUser)){
         //     updatedUsers = book.users.filter(usr => usr == currentUser)
@@ -78,6 +89,7 @@ function showPanel(book){
           }
 
         fetch(`http://localhost:3000/books/${book.id}`, configObj)
+        showPanel(book)
 
     })
 
