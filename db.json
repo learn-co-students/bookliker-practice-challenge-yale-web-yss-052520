@@ -7,12 +7,20 @@
       "img_url": "http://books.google.com/books/content?id=CEMZ1OoPDIAC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
       "users": [
         {
-          "id": 2,
-          "username": "auer"
+          "id": 10,
+          "username": "macejkovic"
+        },
+        {
+          "id": 4,
+          "username": "batz"
         },
         {
           "id": 8,
           "username": "goodwin"
+        },
+        {
+          "id": 1,
+          "username": "pouros"
         }
       ]
     },
