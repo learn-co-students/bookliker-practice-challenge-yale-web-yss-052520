@@ -33,6 +33,8 @@ function makeClickable(element, book){
 
 function showPanel(book){
     let panel = document.querySelector('#show-panel')
+    panel.innerHTML = ""
+    // childNodes.forEach( node => node.remove())
 
     let h2 = ce("h2")
     h2.innerText = book.title
