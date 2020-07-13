@@ -46,27 +46,69 @@ function showPanel(book){
     p.innerText = book.description
 
     let btn = ce("button")
-    btn.innerText = "Like"
-    btn.addEventListener("click", async () => {
-    	book = await addLike(book)
+    if (book.user.includes(currentUser)){
+        btn.innerText = "Remove Book"
+    }else{
+        btn.innerText = "Read Book"
+    }
+    
+    btn.addEventListener("click",  () => {
+
+        let currentUser = {"id": 1, "username": "pouros"}
+        
+         book.user.includes(currentUser)? book.users.filter(usr => usr == currentUser) : book.users.push(currentUser)
+            
+        // let updatedUsers = book.users
+        // if (updatedUsers.lengthincludes(currentUser)){
+        //     updatedUsers = book.users.filter(usr => usr == currentUser)
+        // }else{
+        //     updatedUsers = book.users.push(currentUser)
+        // }
+
+
+        let configObj = {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              users: updatedUsers
+            })
+          }
+
+        fetch(`http://localhost:3000/books/${book.id}`, configObj)
+
     })
+
+    // forEach()
 
     panel.append(h2, img, p, btn)
 }
 
-async function addLike(book) {
-	let currentUser = await fetch('http://localhost:3000/users/1')
-		.then(res => res.json())
+// async function readBook(book) {
+	
+// 	const response = await fetch('http://localhost:3000/books/' + book.id, {
+// 		method: 'patch',
+// 		headers: {"Content-Type": "application/json"},
+//                 body: JSON.stringify({
+//                   users: book.users.push(currentUser) 
+//                 })
+//     })
 
-	const response = await fetch('http://localhost:3000/books/' + book.id, {
-		method: 'patch',
-		headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({
-                  users: book.users.push(currentUser) 
-                })
-	})
 
-	const updatedBook = await response.json()
+//     fetch(`http://localhost:3000/books/${book.id}`, configObj)
+    
+//     let configObj = {
+//         method: "PATCH",
+//         headers: {
+//           "Content-Type": "application/json"
+//         },
+//         body: JSON.stringify({
+//           users: currentusers
+//         })
+//       }
 
-	return updatedBook
-}
+// 	const updatedBook = await response.json()
+
+// 	return updatedBook
+// }
