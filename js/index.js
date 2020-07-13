@@ -2,23 +2,23 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const bookUrl = 'http://localhost:3000/books/'
     const userUrl = 'http://localhost:3000/users'
-    const book_list = document.querySelector("#list")
+    const bookList = document.querySelector("#list")
     const showPanel = document.querySelector('#show-panel')
 
     fetch(bookUrl)
     .then(res => res.json())
-    .then(books => books.forEach(book => {add_book(book)}))
+    .then(books => books.forEach(book => {addBook(book)}))
     
-    function add_book(book){
+    function addBook(book){
         const li = document.createElement("li")
         li.innerText = book.title
-        book_list.append(li)
+        bookList.append(li)
         li.addEventListener('click',  () => {
-            display_book(book)
+            displayBook(book)
         })
     }
 
-    function display_book(book){
+    function displayBook(book){
         showPanel.innerHTML = ""
         const img = document.createElement("img")
         img.src = book.img_url
@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function() {
         
         fetch(bookUrl + book.id, configObj)
         .then(res => res.json())
-        .then(data => display_book(data))
+        .then(data => displayBook(data))
     }
         
 });
